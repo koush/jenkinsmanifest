@@ -124,49 +124,54 @@ function refresh() {
             return;
 
           found = true;
-
-          get(build.url + 'artifact/archive/build.prop', function(err, data) {
+          ajax(build.url + 'api/json', function(err, data) {
             if (err)
               return;
-            // console.log(data);
-            history[build.number] = data;
-            var lines = data.split('\n');
-            var version;
-            collections.each(lines, function(index, line) {
-              var pair = line.split('=', 2);
-              if (pair.length != 2)
-                return;
-              var key = pair[0];
-              var value = pair[1];
-              if (key == 'ro.modversion') {
-                entry.modversion = value;
-                version = value.split('-');
-                version.pop();
-                version.pop();
-                entry.name = 'CyanogenMod ' + version.join(' ');
-                if (version[1].indexOf('.') != -1)
-                  entry.incremental = version[1].replace('.', '') * 10;
-                else
-                  entry.incremental = version[1];
-                entry.product = 'cm-' + version[0];
-              }
-              if (key == 'ro.product.device')
-                entry.device = value;
-              
-            });
-            
-            if (entry.device && entry.incremental) {
-              entry.summary = 'Build: ' + version[1];
-              manifest.roms.push(entry);
-              manifest.roms = collections.sort(manifest.roms, function(r1, r2) {
-                if (r1.version == r2.version)
-                  return 0;
-                if (r1.version < r2.version)
-                  return -1;
-                return 1;
-              });
-              manifest.roms.reverse();
+            if (data.result != 'SUCCESS') {
+              history[build.number] = data;
+              return;
             }
+
+            get(build.url + 'artifact/archive/build.prop', function(err, data) {
+              if (err)
+                return;
+              // console.log(data);
+              history[build.number] = data;
+              var lines = data.split('\n');
+              var version;
+              collections.each(lines, function(index, line) {
+                var pair = line.split('=', 2);
+                if (pair.length != 2)
+                  return;
+                var key = pair[0];
+                var value = pair[1];
+                if (key == 'ro.modversion') {
+                  entry.modversion = value;
+                  version = value.split('-');
+                  version.pop();
+                  version.pop();
+                  entry.name = 'CyanogenMod ' + version.join(' ');
+                  if (version[1].indexOf('.') != -1)
+                    entry.incremental = version[1].replace('.', '') * 10;
+                  else
+                    entry.incremental = version[1];
+                  entry.product = 'cm-' + version[0];
+                }
+                if (key == 'ro.product.device')
+                  entry.device = value;
+
+              });
+
+              if (entry.device && entry.incremental) {
+                entry.summary = 'Build: ' + version[1];
+                manifest.roms.push(entry);
+                manifest.roms = collections.sort(manifest.roms, function(r) {
+                  return r.incremental;
+                });
+                manifest.roms.reverse();
+              }
+            });
+
           });
         });
         if (!found) {
