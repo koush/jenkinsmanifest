@@ -100,8 +100,10 @@ function refresh() {
     if (err)
       return;
     collections.each(data.builds, function(index, build) {
-      if (history[build.number])
+      if (history[build.number]) {
+        console.log(build.number + ": already processed.");
         return;
+      }
       ajax(build.url + 'api/json', function(err, data) {
         if (err)
           return;
@@ -128,16 +130,20 @@ function refresh() {
             if (err)
               return;
             if (data.result != 'SUCCESS') {
-              if (data.result != null)
-                history[build.number] = data;
+              if (data.result != null) {
+                console.log(build.number + ": " + data.result);
+                history[build.number] = build;
+              }
+              else {
+                console.log(build.number + ": in progress");
+              }
               return;
             }
 
             get(build.url + 'artifact/archive/build.prop', function(err, data) {
               if (err)
                 return;
-              // console.log(data);
-              history[build.number] = data;
+              history[build.number] = build;
               var lines = data.split('\n');
               var version;
               collections.each(lines, function(index, line) {
@@ -164,6 +170,7 @@ function refresh() {
               });
 
               if (entry.device && entry.incremental) {
+                console.log(build.number + ": " + entry.url);
                 entry.summary = 'Build: ' + version[1];
                 manifest.roms.push(entry);
                 manifest.roms = collections.sort(manifest.roms, function(r) {
@@ -171,11 +178,16 @@ function refresh() {
                 });
                 manifest.roms.reverse();
               }
+              else {
+                history[build.number] = build;
+                console.log(build.number + ": missing build.prop entries");
+              }
             });
 
           });
         });
         if (!found) {
+          console.log(build.number + ": missing artifacts");
           history[build.number] = data;
           return;
         }
