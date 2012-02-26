@@ -107,7 +107,6 @@ function refresh() {
           return;
         var found = false;
         var entry = {
-          product: 'CyanogenModJenkins',
           addons: [
               {
                   "name": "Google Apps",
@@ -149,6 +148,7 @@ function refresh() {
                   entry.incremental = version[1].replace('.', '') * 10;
                 else
                   entry.incremental = version[1];
+                entry.product = 'cm-' + version[0];
               }
               if (key == 'ro.product.device')
                 entry.device = value;
