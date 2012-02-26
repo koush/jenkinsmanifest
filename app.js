@@ -128,7 +128,8 @@ function refresh() {
             if (err)
               return;
             if (data.result != 'SUCCESS') {
-              history[build.number] = data;
+              if (data.result != null)
+                history[build.number] = data;
               return;
             }
 
