@@ -78,6 +78,7 @@ var manifest = {
 
 
 app.get('/', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
   res.send(manifest);
 });
 
@@ -139,8 +140,6 @@ function refresh() {
               var key = pair[0];
               var value = pair[1];
               if (key == 'ro.modversion') {
-                console.log('ro.modversion');
-                console.log(value);
                 entry.modversion = value;
                 version = value.split('-');
                 version.pop();
