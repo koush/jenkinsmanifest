@@ -117,7 +117,7 @@ function refresh() {
         };
         collections.each(data.artifacts, function(index, artifact) {
           if (artifact.displayPath.startsWith('update-') && artifact.displayPath.endsWith('.zip')) {
-            entry.url = build.url + 'artifact/archive/' + artifact.displayPath;
+            entry.url = 'http://get.cm/get/' + artifact.displayPath;
             return;
           }
           
