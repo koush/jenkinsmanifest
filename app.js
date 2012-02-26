@@ -78,7 +78,7 @@ var manifest = {
 
 
 app.get('/', function(req, res) {
-  
+  res.send(manifest);
 });
 
 if (typeof String.prototype.startsWith != 'function') {
