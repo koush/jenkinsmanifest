@@ -159,13 +159,14 @@ function refresh() {
             if (entry.device && entry.incremental) {
               entry.summary = 'Build: ' + version[1];
               manifest.roms.add(entry);
-              collections.sort(manifest.roms, function(r1, r2) {
+              manifest.roms = collections.sort(manifest.roms, function(r1, r2) {
                 if (r1.version == r2.version)
                   return 0;
                 if (r1.version < r2.version)
                   return -1;
                 return 1;
               });
+              manifest.roms.reverse();
             }
           });
         });
