@@ -109,12 +109,6 @@ function refresh() {
           return;
         var found = false;
         var entry = {
-          addons: [
-              {
-                  "name": "Google Apps",
-                  "url": "http://goo-inside.me/gapps/gapps-ics-20120224-signed.zip" 
-              } 
-          ]
         };
         collections.each(data.artifacts, function(index, artifact) {
           if (artifact.displayPath.startsWith('update-') && artifact.displayPath.endsWith('.zip')) {
@@ -163,6 +157,26 @@ function refresh() {
                   else
                     entry.incremental = version[1];
                   entry.product = 'cm-' + version[0];
+                  if (entry.product == 'cm-9') {
+                    entry.addons = [
+                        {
+                            "name": "Google Apps",
+                            "url": "http://goo-inside.me/gapps/gapps-ics-20120224-signed.zip"
+                        }
+                    ]
+                  }
+                  else {
+                    entry.addons = [
+                    {
+                        "name": "Google Apps",
+                        "url": "http://goo-inside.me/gapps/gapps-gb-20110828-signed.zip"
+                    },
+                    {
+                        "name": "GTalk w/ Video Chat (Experimental!)",
+                        "url": "http://goo-inside.me/gapps/gapps-gb-20110828-newtalk-signed.zip"
+                    }
+                    ]
+                  }
                 }
                 if (key == 'ro.product.device')
                   entry.device = value;
