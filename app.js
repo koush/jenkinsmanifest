@@ -161,7 +161,7 @@ function refresh() {
                     entry.addons = [
                         {
                             "name": "Google Apps",
-                            "url": "http://goo-inside.me/gapps/gapps-ics-20120224-signed.zip"
+                            "url": "http://download2.clockworkmod.com/gapps/gapps-ics-20120224-signed.zip"
                         }
                     ]
                   }
@@ -169,11 +169,11 @@ function refresh() {
                     entry.addons = [
                     {
                         "name": "Google Apps",
-                        "url": "http://goo-inside.me/gapps/gapps-gb-20110828-signed.zip"
+                        "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-signed.zip"
                     },
                     {
                         "name": "GTalk w/ Video Chat (Experimental!)",
-                        "url": "http://goo-inside.me/gapps/gapps-gb-20110828-newtalk-signed.zip"
+                        "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-newtalk-signed.zip"
                     }
                     ]
                   }
