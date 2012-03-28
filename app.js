@@ -152,7 +152,7 @@ function refresh() {
                   version.pop();
                   version.pop();
                   entry.name = 'CyanogenMod ' + version.join(' ');
-                  entry.name.replace('CyanogenMod CyanogenMod', 'CyanogenMod');
+                  entry.name = entry.name.replace('CyanogenMod CyanogenMod', 'CyanogenMod');
                   if (version[1].indexOf('.') != -1)
                     entry.incremental = version[1].replace('.', '') * 10;
                   else
