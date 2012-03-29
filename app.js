@@ -110,8 +110,11 @@ function refresh() {
         var found = false;
         var entry = {
         };
+        var zip;
+        var buildData;
         collections.each(data.artifacts, function(index, artifact) {
           if (artifact.displayPath.startsWith('update-') && artifact.displayPath.endsWith('.zip')) {
+            zip = artifact.displayPath;
             entry.url = 'http://mirror.sea.tdrevolution.net/cm/artifacts/' + build.number + '/artifact/archive/' + artifact.displayPath;
             return;
           }
@@ -121,6 +124,7 @@ function refresh() {
 
           found = true;
           ajax(build.url + 'api/json', function(err, data) {
+            buildData = data;
             if (err)
               return;
             if (data.result != 'SUCCESS') {
@@ -137,7 +141,7 @@ function refresh() {
             get(build.url + 'artifact/archive/build.prop', function(err, data) {
               if (err)
                 return;
-              history[build.number] = build;
+              history[build.number] = buildData;
               var lines = data.split('\n');
               var version;
               collections.each(lines, function(index, line) {
@@ -185,6 +189,8 @@ function refresh() {
               });
 
               if (entry.device && entry.incremental) {
+                buildData.zip = zip;
+                entry.build = build.number;
                 console.log(build.number + ": " + entry.url);
                 entry.summary = 'Build: ' + version[1];
                 manifest.roms.push(entry);
@@ -192,6 +198,15 @@ function refresh() {
                   return r.incremental;
                 });
                 manifest.roms.reverse();
+                collections.each(buildData.actions, function(index, p) {
+                  if (p.parameters) {
+                    collections.each(p.parameters, function(index, p) {
+                      if (p.name == 'RELEASE_TYPE') {
+                        buildData.type = p.value;
+                      }
+                    });
+                  }
+                });
               }
               else {
                 history[build.number] = build;
@@ -213,6 +228,29 @@ function refresh() {
 
 refresh();
 
+function renderList(req, res, currentDevice) {
+  var devices = {};
+  collections.each(manifest.roms, function(index, rom) {
+    devices[rom.device] = true;
+  });
+  
+  devices = Object.keys(devices);
+  
+  res.render('index', {
+    currentDevice: currentDevice,
+    devices: devices,
+    manifest: manifest,
+    history: history
+  });
+}
+
+app.get('/', function(req, res) {
+  renderList(req, res);
+});
+
+app.get('/device/:device', function(req, res) {
+  renderList(req, res, req.params.device);
+});
 
 var listenPort = process.env.PORT == null ? 3000 : parseInt(process.env.PORT);
 app.listen(listenPort);

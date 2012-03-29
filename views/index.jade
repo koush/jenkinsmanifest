@@ -1,2 +1,45 @@
-h1= title
-p Welcome to #{title}
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container-fluid
+      a.brand(href='/') CyanogenMod Downloads
+    
+.container-fluid
+  .row-fluid
+    .span2
+      .well.sidebar-nav
+        ul.nav.nav-list
+          li.nav-header Devices
+          - if (currentDevice == null || currentDevice == 'all')
+            li.active
+              a(href='/') all
+          - else
+            li
+              a(href='/') all
+          - for device in devices
+            - if (currentDevice == device)
+              li.active
+                a(href='/device/' + device)= device
+            - else
+              li
+                a(href='/device/' + device)= device
+
+    .span10
+      table.table.table-bordered-table-striped
+        thead
+          tr
+            th Device
+            th Type
+            th Filename
+            th Date Added
+        tbody
+          - for rom in manifest.roms
+            - if (rom.device == currentDevice || currentDevice == null || currentDevice == 'all')
+              - var build = history[rom.build]
+              - var date = new Date(build.timestamp)
+              - console.log(build)
+              tr
+                td= rom.device
+                td= build.type
+                td
+                  a(href=rom.url)= build.zip
+                td= date.toDateString()
