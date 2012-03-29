@@ -112,7 +112,7 @@ function refresh() {
         };
         collections.each(data.artifacts, function(index, artifact) {
           if (artifact.displayPath.startsWith('update-') && artifact.displayPath.endsWith('.zip')) {
-            entry.url = 'http://get.cm/get/' + artifact.displayPath;
+            entry.url = 'http://mirror.sea.tdrevolution.net/cm/artifacts/' + build.number + '/artifact/archive/' + artifact.displayPath;
             return;
           }
           
