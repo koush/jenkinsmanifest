@@ -77,7 +77,7 @@ var manifest = {
 }
 
 
-app.get('/', function(req, res) {
+app.get('/manifest', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
   res.send(manifest);
 });
