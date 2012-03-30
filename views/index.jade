@@ -43,5 +43,7 @@
                 td= rom.device
                 td= build.type
                 td
+                  a(href='https://tickleservice.appspot.com/authorizedtickle?applicationId=ROM Manager&data.url=' + escape(rom.url) + "&data.name=" + rom.name + "&failure_redirect=" + escape('http://rommanager.appspot.com/webconnectfailure.html') + "&success_redirect=" + escape('http://rommanager.appspot.com/webconnectsuccess.html'))
+                    img(src='/images/rommanager.png')
                   a(href=rom.url)= build.zip
                 td= date.toDateString()
