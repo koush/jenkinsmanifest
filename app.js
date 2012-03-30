@@ -236,6 +236,12 @@ function renderList(req, res, currentDevice) {
   
   devices = Object.keys(devices);
   
+  collections.sort(manifest.roms, function(v) {
+    return v.build;
+  });
+  
+  manifest.roms.reverse();
+  
   res.render('index', {
     currentDevice: currentDevice,
     devices: devices,
