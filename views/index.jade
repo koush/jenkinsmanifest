@@ -27,6 +27,7 @@
       table.table.table-bordered.table-striped
         thead
           tr
+            th Build
             th Device
             th Type
             th Filename
@@ -38,6 +39,7 @@
               - var date = new Date(build.timestamp)
               - console.log(build)
               tr
+                td= rom.build
                 td= rom.device
                 td= build.type
                 td
