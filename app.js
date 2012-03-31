@@ -68,14 +68,23 @@ app.configure('production', function(){
 
 // Routes
 
-var manifest = {
-  version: 1,
-  homepage: "http://www.cyanogenmod.com/",
-  donate: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3283920",
-  roms: [
-  ]
-}
+var manifest;
+var history;
 
+function purger() {
+  manifest = {
+    version: 1,
+    homepage: "http://www.cyanogenmod.com/",
+    donate: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3283920",
+    roms: [
+    ]
+  }
+  
+  history = {};
+  
+  setTimeout(purger, 30 * 60 * 1000);
+}
+purger();
 
 app.get('/manifest', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
@@ -93,7 +102,6 @@ if (typeof String.prototype.endsWith != 'function') {
   };
 }
 
-var history = {};
 function refresh() {
   ajax('http://jenkins.cyanogenmod.com/job/android/api/json', function(err, data) {
     setTimeout(refresh, 300000);
