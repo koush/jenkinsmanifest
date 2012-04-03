@@ -145,6 +145,11 @@ function refresh() {
               }
               return;
             }
+            
+            if (data.building) {
+              console.log(build.number + ": finished building, but is still archiving");
+              return;
+            }
 
             get(build.url + 'artifact/archive/build.prop', function(err, data) {
               if (err)
