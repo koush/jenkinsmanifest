@@ -146,9 +146,13 @@ function refresh() {
               return;
             }
             
-            if (data.building) {
+            if (data.building || data.duration == 0) {
               console.log(build.number + ": finished building, but is still archiving");
               return;
+            }
+            
+            if (data.timestamp + data.duration < Date.now() + 10 * 60 * 1000) {
+              console.log(build.number + ": must wait 10 minutes before exposing build to fix hacky race condition with nginx reverse proxy");
             }
 
             get(build.url + 'artifact/archive/build.prop', function(err, data) {
