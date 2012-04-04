@@ -151,7 +151,7 @@ function refresh() {
               return;
             }
             
-            if (data.timestamp + data.duration + 10 * 60 * 1000 < Date.now()) {
+            if (data.timestamp + data.duration + 10 * 60 * 1000 > Date.now()) {
               console.log(build.number + ": must wait 10 minutes before exposing build to fix hacky race condition with nginx reverse proxy");
             }
 
