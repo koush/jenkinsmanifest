@@ -252,6 +252,9 @@ function renderList(req, res, currentDevice) {
   });
   
   devices = Object.keys(devices);
+  collections.sort(devices, function(d) {
+    return d;
+  });
   
   collections.sort(manifest.roms, function(v) {
     return v.build;
