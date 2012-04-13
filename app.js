@@ -200,7 +200,7 @@ function refresh() {
                     ]
                   }
                 }
-                if (key == 'ro.product.device')
+                if (key == 'ro.cm.device')
                   entry.device = value;
 
               });
