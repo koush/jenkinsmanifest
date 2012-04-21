@@ -183,7 +183,7 @@ function refresh() {
                     entry.addons = [
                         {
                             "name": "Google Apps",
-                            "url": "http://download2.clockworkmod.com/gapps/gapps-ics-20120304-signed.zip"
+                            "url": "http://download2.clockworkmod.com/gapps/gapps-ics-20120317-signed.zip"
                         }
                     ]
                   }
