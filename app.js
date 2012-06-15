@@ -91,7 +91,7 @@ app.get('/manifest', function(req, res) {
   res.send(manifest);
 });
 
-function getTrimmed(req) {
+function getTrimmed(req, filter) {
   var device = req.params.device;
   var trimmed = {
     version: 1,
@@ -103,7 +103,8 @@ function getTrimmed(req) {
   
   collections.each(manifest.roms, function(index, rom) {
     if (rom.device == device) {
-      trimmed.roms.push(rom);
+      if (!filter || filter(rom))
+        trimmed.roms.push(rom);
     }
   });
   return trimmed;
@@ -116,10 +117,7 @@ app.get('/manifest/:device', function(req, res) {
   res.send(trimmed);
 });
 
-app.get('/manifest/:device/latest', function(req, res) {
-  res.header('Cache-Control', 'max-age=300');
-  var trimmed = getTrimmed(req);
-  
+function useOnlyLatest(trimmed) {
   var latest = null;
   var latestBuild = 0;
   collections.each(trimmed.roms, function(index, rom) {
@@ -131,7 +129,37 @@ app.get('/manifest/:device/latest', function(req, res) {
   trimmed.roms = [];
   if (latest)
     trimmed.roms.push(latest);
+}
 
+app.get('/manifest/:device/latest', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var trimmed = getTrimmed(req);
+
+  useOnlyLatest(trimmed);
+  res.send(trimmed);
+});
+
+app.get('/manifest/:device/:category', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var trimmed = getTrimmed(req, function(rom) {
+    var build = history[rom.build];
+    if (build.type == req.params.category)
+      return true;
+  });
+  
+  res.send(trimmed);
+});
+
+
+app.get('/manifest/:device/:category/latest', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var trimmed = getTrimmed(req, function(rom) {
+    var build = history[rom.build];
+    if (build.type == req.params.category)
+      return true;
+  });
+  
+  useOnlyLatest(trimmed);
   res.send(trimmed);
 });
 
