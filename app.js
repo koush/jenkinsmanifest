@@ -26,7 +26,7 @@ var get = function(urlStr, callback) {
          callback(null, data);
        }
        catch (err) {
-         console.log('exception during get');
+         console.log('exception during get of ' + urlStr);
          console.log(err);
          callback(err);
        }
@@ -110,6 +110,26 @@ function getTrimmed(req, filter) {
   return trimmed;
 }
 
+app.get('/manifest/release', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var trimmed = {
+    version: 1,
+    homepage: "http://www.cyanogenmod.com/",
+    donate: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3283920",
+    roms: [
+    ]
+  };
+  
+  collections.each(manifest.roms, function(index, rom) {
+    var build = history[rom.build];
+    if (build.type == req.params.category)
+      trimmed.roms.push(rom);
+  });
+  res.send(trimmed);
+});
+
+
+
 app.get('/manifest/:device', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
   var trimmed = getTrimmed(req);
@@ -185,8 +205,11 @@ function refresh() {
         return;
       }
       ajax(build.url + 'api/json', function(err, data) {
-        if (err)
+        if (err) {
+          console.log('error processing: ' + build.number)
+          console.log(err)
           return;
+        }
         var found = false;
         var entry = {
         };
@@ -209,7 +232,6 @@ function refresh() {
               return;
             if (data.result != 'SUCCESS') {
               if (data.result != null) {
-                console.log(build.number + ": " + data.result);
                 history[build.number] = build;
               }
               else {
@@ -243,34 +265,12 @@ function refresh() {
                   entry.modversion = value;
                   version = value.split('-');
                   version.pop();
-                  version.pop();
+                  if (!value.startsWith('CyanogenMod-')) {
+                    version.pop();
+                  }
                   entry.name = 'CyanogenMod ' + version.join(' ');
                   entry.name = entry.name.replace('CyanogenMod CyanogenMod', 'CyanogenMod');
-                  if (version[1].indexOf('.') != -1)
-                    entry.incremental = version[1].replace('.', '') * 10;
-                  else
-                    entry.incremental = version[1];
-                  entry.product = 'cm-' + version[0];
-                  if (entry.product == 'cm-9') {
-                    entry.addons = [
-                        {
-                            "name": "Google Apps",
-                            "url": "http://download2.clockworkmod.com/gapps/gapps-ics-20120429-signed.zip"
-                        }
-                    ]
-                  }
-                  else {
-                    entry.addons = [
-                    {
-                        "name": "Google Apps",
-                        "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-signed.zip"
-                    },
-                    {
-                        "name": "GTalk w/ Video Chat (Experimental!)",
-                        "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-newtalk-signed.zip"
-                    }
-                    ]
-                  }
+                  entry.incremental = build.number;
                 }
                 if (key == 'ro.cm.device')
                   entry.device = value;
@@ -291,7 +291,28 @@ function refresh() {
                   if (p.parameters) {
                     collections.each(p.parameters, function(index, p) {
                       if (p.name == 'RELEASE_TYPE') {
-                        buildData.type = p.value;
+                        entry.product = buildData.type = p.value;
+
+                        if (entry.product == 'cm-9') {
+                          entry.addons = [
+                              {
+                                  "name": "Google Apps",
+                                  "url": "http://download2.clockworkmod.com/gapps/gapps-ics-20120429-signed.zip"
+                              }
+                          ]
+                        }
+                        else {
+                          entry.addons = [
+                          {
+                              "name": "Google Apps",
+                              "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-signed.zip"
+                          },
+                          {
+                              "name": "GTalk w/ Video Chat (Experimental!)",
+                              "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-newtalk-signed.zip"
+                          }
+                          ]
+                        }
                       }
                     });
                   }
