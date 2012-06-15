@@ -91,6 +91,50 @@ app.get('/manifest', function(req, res) {
   res.send(manifest);
 });
 
+function getTrimmed(req) {
+  var device = req.params.device;
+  var trimmed = {
+    version: 1,
+    homepage: "http://www.cyanogenmod.com/",
+    donate: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3283920",
+    roms: [
+    ]
+  };
+  
+  collections.each(manifest.roms, function(index, rom) {
+    if (rom.device == device) {
+      trimmed.roms.push(rom);
+    }
+  });
+  return trimmed;
+}
+
+app.get('/manifest/:device', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var trimmed = getTrimmed(req);
+  
+  res.send(trimmed);
+});
+
+app.get('/manifest/:device/latest', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var trimmed = getTrimmed(req);
+  
+  var latest = null;
+  var latestBuild = 0;
+  collections.each(trimmed.roms, function(index, rom) {
+    if (!latest || latest.build < rom.build) {
+      latest = rom;
+    }
+  });
+  
+  trimmed.roms = [];
+  if (latest)
+    trimmed.roms.push(latest);
+
+  res.send(trimmed);
+});
+
 if (typeof String.prototype.startsWith != 'function') {
   String.prototype.startsWith = function (str){
     return this.indexOf(str) == 0;
