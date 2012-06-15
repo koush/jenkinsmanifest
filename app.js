@@ -293,7 +293,7 @@ function refresh() {
                       if (p.name == 'RELEASE_TYPE') {
                         entry.product = buildData.type = p.value;
 
-                        if (entry.product == 'cm-9') {
+                        if (entry.modversion.startsWith('9-') != -1) {
                           entry.addons = [
                               {
                                   "name": "Google Apps",
