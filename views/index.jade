@@ -8,8 +8,28 @@
     .span2
       .well.sidebar-nav
         ul.nav.nav-list
+          li.nav-header Type
+            - var types = {};
+            - for build in history
+              - types[build.type] = build.type;
+            - if (currentType == 'all')
+              li.active
+                a(href='/device/' + currentDevice) all
+            - else
+              li
+                a(href='/device/' + currentDevice) all
+            - for type in types
+              - if (type)
+                - if (currentType == type)
+                  li.active
+                    a(href='/device/' + currentDevice + '/' + type)=type.replace('CM_', '').toLowerCase()
+                - else
+                  li
+                    a(href='/device/' + currentDevice + '/' + type)=type.replace('CM_', '').toLowerCase()
+      .well.sidebar-nav
+        ul.nav.nav-list
           li.nav-header Devices
-          - if (currentDevice == null || currentDevice == 'all')
+          - if (currentDevice == 'all')
             li.active
               a(href='/') all
           - else
@@ -18,10 +38,10 @@
           - for device in devices
             - if (currentDevice == device)
               li.active
-                a(href='/device/' + device)= device
+                a(href='/device/' + device + '/' + currentType)= device
             - else
               li
-                a(href='/device/' + device)= device
+                a(href='/device/' + device + '/' + currentType)= device
 
     .span10
       table.table.table-bordered.table-striped

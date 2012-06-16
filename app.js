@@ -338,7 +338,7 @@ function refresh() {
 
 refresh();
 
-function renderList(req, res, currentDevice) {
+function renderList(req, res, currentDevice, currentType) {
   var devices = {};
   collections.each(manifest.roms, function(index, rom) {
     devices[rom.device] = true;
@@ -355,10 +355,28 @@ function renderList(req, res, currentDevice) {
   
   manifest.roms.reverse();
   
+  var trimmed = {
+    version: 1,
+    homepage: "http://www.cyanogenmod.com/",
+    donate: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3283920",
+    roms: [
+    ]
+  };
+  if (currentType) {
+    collections.each(manifest.roms, function(index, rom) {
+      if (history[rom.build].type == currentType)
+        trimmed.roms.push(rom);
+    });
+  }
+  else {
+    trimmed = manifest;
+  }
+  
   res.render('index', {
-    currentDevice: currentDevice,
+    currentType: currentType == null ? 'all' : currentType,
+    currentDevice: currentDevice == null ? 'all' : currentDevice,
     devices: devices,
-    manifest: manifest,
+    manifest: trimmed,
     history: history
   });
 }
@@ -369,6 +387,10 @@ app.get('/', function(req, res) {
 
 app.get('/device/:device', function(req, res) {
   renderList(req, res, req.params.device);
+});
+
+app.get('/device/:device/:type', function(req, res) {
+  renderList(req, res, req.params.device, req.params.type);
 });
 
 var listenPort = process.env.PORT == null ? 3000 : parseInt(process.env.PORT);
