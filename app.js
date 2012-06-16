@@ -247,12 +247,13 @@ function refresh() {
       };
       entry.product = build.type = "CM_RELEASE";
       entry.modversion = result.modversion;
-      entry.url = 'http://cms3.clockworkmod.com/release/' + entry.modversion + '/' + result.filename;
       entry.incremental = result.build;
       entry.name = getNameFromVersion(entry.modversion);
       entry.summary = 'Stable Release';
       entry.device = result.device;
       build.zip = result.filename;
+      // entry.url = 'http://cms3.clockworkmod.com/release/' + entry.modversion + '/' + result.filename;
+      entry.url = 'http://get.cm/get/artifacts/' + entry.incremental + '/artifact/archive/' + build.zip;
       build.timestamp = result.date;
       addGoogle(entry);
       manifest.roms.push(entry);
@@ -356,7 +357,7 @@ function refresh() {
                 
                 if (entry.product == 'CM_RELEASE') {
                   entry.summary = 'Stable Release';
-                  entry.url = 'http://cms3.clockworkmod.com/release/' + entry.modversion + '/' + zip;
+                  // entry.url = 'http://cms3.clockworkmod.com/release/' + entry.modversion + '/' + zip;
                   mysql.query('replace into releases (modversion, build, device, filename, date) values (?, ?, ?, ?, ?)', [entry.modversion, entry.incremental, entry.device, zip, history[entry.incremental].timestamp], function(err, results, fields)  {
                     if (err) {
                       console.log(err);
