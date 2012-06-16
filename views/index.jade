@@ -55,11 +55,10 @@
         tbody
           - for rom in manifest.roms
             - if (rom.device == currentDevice || currentDevice == null || currentDevice == 'all')
-              - var build = history[rom.build]
+              - var build = history[rom.incremental]
               - var date = new Date(build.timestamp)
-              - console.log(build)
               tr
-                td= rom.build
+                td= rom.incremental
                 td= rom.device
                 td= build.type
                 td
