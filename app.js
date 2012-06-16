@@ -235,7 +235,6 @@ function addGoogle(entry) {
   }
 }
 
-
 function refresh() {
   mysql.query('select * from releases', function(err, results, fields) {
     collections.each(results, function(index, result) {
