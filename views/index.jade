@@ -34,7 +34,7 @@
               a(href='/device/all/' + currentType) all
           - else
             li
-              a(href='/') all
+              a(href='/device/all/' + currentType) all
           - for device in devices
             - if (currentDevice == device)
               li.active
