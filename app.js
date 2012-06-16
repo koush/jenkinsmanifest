@@ -132,7 +132,16 @@ app.get('/manifest/release', function(req, res) {
       trimmed.roms.push(rom);
     }
   });
-  res.send(trimmed);
+  
+  ajax('http://gh-pages.clockworkmod.com/ROMManagerManifest/cyanogenmod.js', function(err, data) {
+    if (data) {
+      collections.each(data.roms, function(index, rom) {
+        rom.incremental = 0;
+        trimmed.roms.push(rom);
+      })
+    }
+    res.send(trimmed);
+  });
 });
 
 
