@@ -137,6 +137,7 @@ app.get('/manifest/release', function(req, res) {
     if (data) {
       collections.each(data.roms, function(index, rom) {
         rom.incremental = 0;
+        rom.product = 'CM_RELEASE';
         trimmed.roms.push(rom);
       })
     }
