@@ -362,7 +362,7 @@ function renderList(req, res, currentDevice, currentType) {
     roms: [
     ]
   };
-  if (currentType) {
+  if (currentType && currentType != 'all') {
     collections.each(manifest.roms, function(index, rom) {
       if (history[rom.build].type == currentType)
         trimmed.roms.push(rom);
