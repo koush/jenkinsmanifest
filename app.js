@@ -14,6 +14,9 @@ var collections = require('./collections');
 
 var app = module.exports = express.createServer();
 
+var model = require('./model');
+var mysql = require('./model').mysql;
+
 var get = function(urlStr, callback) {
  var u = url.parse(urlStr);
  http.get({ host: u.host, port: u.port, path: u.pathname + (u.search ? u.search : ''), headers: {'Accept': '*/*', 'User-Agent': 'curl'} },
@@ -317,6 +320,15 @@ function refresh() {
                     });
                   }
                 });
+                
+                if (entry.product == 'CM_RELEASE') {
+                  mysql.query('replace into releases (modversion, build, device, filename, date) values (?, ?, ?, ?, ?)', [entry.modversion, entry.build, entry.device, 'http://s3.amazonaws.com/cyanogenmod-jenkins/release/' + entry.modversion + '/' + zip, history[entry.build].timestamp], function(err, results, fields)  {
+                    if (err) {
+                      console.log(err);
+                      return;
+                    }
+                  });
+                }
               }
               else {
                 history[build.number] = build;
