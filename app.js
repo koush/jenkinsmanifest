@@ -214,11 +214,12 @@ if (typeof String.prototype.endsWith != 'function') {
 function getNameFromVersion(value) {
   var version = value.split('-');
   version.pop();
-  if (!value.startsWith('CyanogenMod-')) {
+  if (!version[version.length - 1].startsWith('RC') && !value.startsWith('CyanogenMod-')) {
     version.pop();
   }
   var ret = 'CyanogenMod ' + version.join(' ');
   ret = ret.replace('CyanogenMod CyanogenMod', 'CyanogenMod');
+  console.log(value + ': ' + ret)
   return ret;
 }
 
@@ -258,8 +259,8 @@ function refresh() {
       entry.product = build.type = "CM_RELEASE";
       entry.modversion = result.modversion;
       entry.incremental = result.build;
-      entry.name = getNameFromVersion(entry.modversion);
       entry.summary = 'Stable Release';
+      entry.name = getNameFromVersion(entry.modversion);
       entry.device = result.device;
       build.zip = result.filename;
       entry.url = 'http://cms3.clockworkmod.com/release/' + entry.modversion + '/' + result.filename;
