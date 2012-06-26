@@ -223,7 +223,7 @@ function getNameFromVersion(value) {
 }
 
 function addGoogle(entry) {
-  if (entry.modversion.startsWith('9-')) {
+  if (entry.modversion.startsWith('9')) {
     entry.addons = [
         {
             "name": "Google Apps",
