@@ -294,7 +294,8 @@ function refresh() {
         collections.each(data.artifacts, function(index, artifact) {
           if ((artifact.displayPath.startsWith('cm-') || artifact.displayPath.startsWith('update-')) && artifact.displayPath.endsWith('.zip')) {
             zip = artifact.displayPath;
-            entry.url = 'http://get.cm/get/artifacts/' + build.number + '/artifact/archive/' + artifact.displayPath;
+            // entry.url = 'http://get.cm/get/artifacts/' + build.number + '/artifact/archive/' + artifact.displayPath;
+            entry.url = 'http://get.cm/get/jenkins/' + build.number + '/' + artifact.displayPath;
             return;
           }
           
