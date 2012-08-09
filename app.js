@@ -214,7 +214,7 @@ if (typeof String.prototype.endsWith != 'function') {
 function getNameFromVersion(value) {
   var version = value.split('-');
   version.pop();
-  if (!version[version.length - 1].startsWith('RC') && !value.startsWith('CyanogenMod-') && version.lenth > 1) {
+  if (!version[version.length - 1].startsWith('RC') && !value.startsWith('CyanogenMod-') && version.length > 1) {
     version.pop();
   }
   var ret = 'CyanogenMod ' + version.join(' ');
