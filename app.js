@@ -214,7 +214,8 @@ if (typeof String.prototype.endsWith != 'function') {
 function getNameFromVersion(value) {
   var version = value.split('-');
   version.pop();
-  if (!version[version.length - 1].startsWith('RC') && !value.startsWith('CyanogenMod-')) {
+  console.log(version.length);
+  if (!version[version.length - 1].startsWith('RC') && !value.startsWith('CyanogenMod-') && version.lenth > 1) {
     version.pop();
   }
   var ret = 'CyanogenMod ' + version.join(' ');
@@ -349,7 +350,7 @@ function refresh() {
 
               if (entry.device && entry.incremental) {
                 buildData.zip = zip;
-                console.log(build.number + ": " + entry.url);
+                // console.log(build.number + ": " + entry.url);
                 entry.summary = 'Build: ' + entry.incremental;
                 manifest.roms.push(entry);
                 manifest.roms = collections.sort(manifest.roms, function(r) {
