@@ -250,7 +250,7 @@ function refresh() {
   mysql.query('select * from releases', function(err, results, fields) {
     collections.each(results, function(index, result) {
       if (history[result.build]) {
-        console.log(build.number + ": already processed.");
+        console.log(result.build + ": already processed.");
         return;
       }
       var build = history[result.build] = {}
