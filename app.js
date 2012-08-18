@@ -227,15 +227,23 @@ function addGoogle(entry) {
   if (entry.modversion.startsWith('9')) {
     entry.addons = [
         {
-            "name": "Google Apps",
+            "name": "Google Apps (4.0)",
             "url": "http://download2.clockworkmod.com/gapps/gapps-ics-20120429-signed.zip"
+        }
+    ]
+  }
+  else if (entry.modversion.startsWith('10')) {
+    entry.addons = [
+        {
+            "name": "Google Apps (4.1)",
+            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20120726-signed.zip"
         }
     ]
   }
   else {
     entry.addons = [
     {
-        "name": "Google Apps",
+        "name": "Google Apps (2.3)",
         "url": "http://download2.clockworkmod.com/gapps/gapps-gb-20110828-signed.zip"
     },
     {
