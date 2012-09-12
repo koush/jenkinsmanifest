@@ -386,6 +386,10 @@ function refresh() {
                     }
                   });
                 }
+                else if (entry.product == 'CM_NIGHTLY') {
+                  var nightlySuffix = entry.modversion.split('-')[0];
+                  entry.product += '-' + nightlySuffix;
+                }
               }
               else {
                 history[build.number] = build;
