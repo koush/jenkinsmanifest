@@ -232,6 +232,14 @@ function addGoogle(entry) {
         }
     ]
   }
+  else if (entry.release && entry.release == '4.2') {
+    entry.addons = [
+        {
+            "name": "Google Apps (4.2)",
+            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20121121.zip"
+        }
+    ]
+  }
   else if (entry.modversion.startsWith('10')) {
     entry.addons = [
         {
@@ -266,6 +274,7 @@ function refresh() {
       };
       entry.product = build.type = "CM_RELEASE";
       entry.modversion = result.modversion;
+      entry.release = result.release;
       entry.incremental = result.build;
       entry.summary = 'Stable Release';
       entry.name = getNameFromVersion(entry.modversion);
@@ -350,6 +359,8 @@ function refresh() {
                   entry.modversion = value;
                   entry.incremental = build.number;
                 }
+                if (key == 'ro.build.version.release')
+                  entry.release = value;
                 if (key == 'ro.cm.device')
                   entry.device = value;
 
