@@ -232,7 +232,7 @@ function addGoogle(entry) {
         }
     ]
   }
-  else if (entry.release && entry.release == '4.2') {
+  else if (entry.releaseVersion && entry.releaseVersion == '4.2') {
     entry.addons = [
         {
             "name": "Google Apps (4.2)",
@@ -274,7 +274,7 @@ function refresh() {
       };
       entry.product = build.type = "CM_RELEASE";
       entry.modversion = result.modversion;
-      entry.release = result.release;
+      entry.releaseVersion = result.releaseVersion;
       entry.incremental = result.build;
       entry.summary = 'Stable Release';
       entry.name = getNameFromVersion(entry.modversion);
@@ -360,7 +360,7 @@ function refresh() {
                   entry.incremental = build.number;
                 }
                 if (key == 'ro.build.version.release')
-                  entry.release = value;
+                  entry.releaseVersion = value;
                 if (key == 'ro.cm.device')
                   entry.device = value;
 
