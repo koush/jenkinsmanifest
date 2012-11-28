@@ -11,7 +11,7 @@ setting.get('model_version', function(version) {
     version = "1";
   }
   if (version == "1") {
-    mysql.query('alter table releases add column (release varchar(32))');
+    mysql.query('alter table releases add column (releaseVersion varchar(32))');
     
     version = "2";
   }
