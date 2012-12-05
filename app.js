@@ -232,7 +232,7 @@ function addGoogle(entry) {
         }
     ]
   }
-  else if (entry.releaseVersion && entry.releaseVersion == '4.2') {
+  else if (entry.releaseVersion && entry.releaseVersion.startsWith('4.2') {
     entry.addons = [
         {
             "name": "Google Apps (4.2)",
