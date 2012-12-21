@@ -223,7 +223,8 @@ function getNameFromVersion(value) {
   return ret;
 }
 
-function addGoogle(entry) {
+function addExtras(entry) {
+  entry.changelog = 'http://get.cm/get/jenkins/' + entry.incremental + '/CHANGES.txt'
   if (entry.modversion.startsWith('9')) {
     entry.addons = [
         {
@@ -283,7 +284,7 @@ function refresh() {
       // entry.url = 'http://cms3.clockworkmod.com/release/' + entry.modversion + '/' + result.filename;
       entry.url = 'http://get.cm/get/jenkins/' + result.build + '/' + result.filename;
       build.timestamp = result.date;
-      addGoogle(entry);
+      addExtras(entry);
       manifest.roms.push(entry);
     });
   });
@@ -380,7 +381,7 @@ function refresh() {
                     collections.each(p.parameters, function(index, p) {
                       if (p.name == 'RELEASE_TYPE') {
                         entry.product = buildData.type = p.value;
-                        addGoogle(entry);
+                        addExtras(entry);
                       }
                     });
                   }
