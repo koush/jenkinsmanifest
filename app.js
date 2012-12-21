@@ -236,7 +236,7 @@ function addGoogle(entry) {
     entry.addons = [
         {
             "name": "Google Apps (4.2)",
-            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20121121.zip"
+            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20121212-signed.zip"
         }
     ]
   }
@@ -244,7 +244,7 @@ function addGoogle(entry) {
     entry.addons = [
         {
             "name": "Google Apps (4.1)",
-            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20120726-signed.zip"
+            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20121011-signed.zip"
         }
     ]
   }
