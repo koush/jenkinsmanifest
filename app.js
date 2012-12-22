@@ -122,7 +122,6 @@ function getTrimmed(req, filter) {
 
 app.get('/manifest/release', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
-  thisHost = req.headers.host; 
   var trimmed = {
     version: 1,
     homepage: "http://www.cyanogenmod.com/",
