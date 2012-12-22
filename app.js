@@ -73,6 +73,7 @@ app.configure('production', function(){
 
 var manifest;
 var history;
+var thisHost;
 
 function purger() {
   manifest = {
@@ -91,6 +92,12 @@ purger();
 
 app.get('/manifest', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
+  if (thisHost != req.headers.host) {
+    thisHost = req.headers.host; 
+    collections.each(manifest.roms, function(index, rom) {
+      rom.changeLog = 'http://' + thisHost + '/changelog/' + rom.incremental;
+    });
+  }
   res.send(manifest);
 });
 
@@ -115,6 +122,7 @@ function getTrimmed(req, filter) {
 
 app.get('/manifest/release', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
+  thisHost = req.headers.host; 
   var trimmed = {
     version: 1,
     homepage: "http://www.cyanogenmod.com/",
@@ -145,7 +153,48 @@ app.get('/manifest/release', function(req, res) {
   });
 });
 
-
+app.get('/changelog/:build', function(req, res) {
+  res.header('Cache-Control', 'max-age=300');
+  var changelog = 'http://get.cm/get/jenkins/' + req.params.build + '/CHANGES.txt';
+  get(changelog, function(err, data) {
+    if (err) {
+      res.writeHead(404);
+      res.end();
+      return;
+    }
+    var lines = data.split('\n');
+    var catMatch = false;
+    var buf = '';
+    for (var line in lines) {
+      line = lines[line];
+      line = line.trim();
+      if (line.length > 0) {
+        if (line.startsWith('=')) {
+          catMatch = !catMatch;
+        }
+        else if (catMatch) {
+          if (buf.length != 0) {
+            buf += '<br />';
+          }
+          buf += '<b><u>';
+          buf += line;
+          buf += '</u></b><br />'
+        }
+        else if (line.startsWith('*')) {
+          buf += '<br /><b>';
+          buf += line.replace('*', '');
+          buf += '</b><br />';
+        }
+        else {
+          buf += "&#8226;&nbsp;";
+          buf += line;
+          buf += '<br />';
+        }
+      }
+    }
+    res.send(buf);
+  });
+});
 
 app.get('/manifest/:device', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
@@ -224,7 +273,6 @@ function getNameFromVersion(value) {
 }
 
 function addExtras(entry) {
-  entry.changelog = 'http://get.cm/get/jenkins/' + entry.incremental + '/CHANGES.txt'
   if (entry.modversion.startsWith('9')) {
     entry.addons = [
         {
