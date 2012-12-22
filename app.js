@@ -95,7 +95,7 @@ app.get('/manifest', function(req, res) {
   if (thisHost != req.headers.host) {
     thisHost = req.headers.host; 
     collections.each(manifest.roms, function(index, rom) {
-      rom.changeLog = 'http://' + thisHost + '/changelog/' + rom.incremental;
+      rom.changelog = 'http://' + thisHost + '/changelog/' + rom.incremental;
     });
   }
   res.send(manifest);
