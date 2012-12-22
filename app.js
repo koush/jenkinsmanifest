@@ -73,7 +73,6 @@ app.configure('production', function(){
 
 var manifest;
 var history;
-var thisHost;
 
 function purger() {
   manifest = {
@@ -93,7 +92,7 @@ purger();
 app.get('/manifest', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
   collections.each(manifest.roms, function(index, rom) {
-    rom.changelog = 'http://' + thisHost + '/changelog/' + rom.incremental;
+    rom.changelog = 'http://' + req.headers.host + '/changelog/' + rom.incremental;
   });
   res.send(manifest);
 });
