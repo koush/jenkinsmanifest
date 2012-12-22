@@ -92,12 +92,9 @@ purger();
 
 app.get('/manifest', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
-  if (thisHost != req.headers.host) {
-    thisHost = req.headers.host; 
-    collections.each(manifest.roms, function(index, rom) {
-      rom.changelog = 'http://' + thisHost + '/changelog/' + rom.incremental;
-    });
-  }
+  collections.each(manifest.roms, function(index, rom) {
+    rom.changelog = 'http://' + thisHost + '/changelog/' + rom.incremental;
+  });
   res.send(manifest);
 });
 
