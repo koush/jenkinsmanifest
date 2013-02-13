@@ -194,7 +194,9 @@ app.get('/changelog/:build', function(req, res) {
 app.get('/manifest/:device', function(req, res) {
   res.header('Cache-Control', 'max-age=300');
   var trimmed = getTrimmed(req);
-  
+  collections.each(trimmed.roms, function(index, rom) {
+    rom.changelog = 'http://' + req.headers.host + '/changelog/' + rom.incremental;
+  });
   res.send(trimmed);
 });
 
