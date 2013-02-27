@@ -85,7 +85,7 @@ function purger() {
   
   history = {};
   
-  setTimeout(purger, 30 * 60 * 1000);
+  setTimeout(purger, 24 * 60 * 60 * 1000);
 }
 purger();
 
