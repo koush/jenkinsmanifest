@@ -265,7 +265,7 @@ function getNameFromVersion(value) {
   }
   var ret = 'CyanogenMod ' + version.join(' ');
   ret = ret.replace('CyanogenMod CyanogenMod', 'CyanogenMod');
-  console.log(value + ': ' + ret)
+  // console.log(value + ': ' + ret)
   return ret;
 }
 
@@ -312,7 +312,7 @@ function refresh() {
   mysql.query('select * from releases', function(err, results, fields) {
     collections.each(results, function(index, result) {
       if (history[result.build]) {
-        console.log(result.build + ": already processed.");
+        // console.log(result.build + ": already processed.");
         return;
       }
       var build = history[result.build] = {}
@@ -340,7 +340,7 @@ function refresh() {
       return;
     collections.each(data.builds, function(index, build) {
       if (history[build.number]) {
-        console.log(build.number + ": already processed.");
+        // console.log(build.number + ": already processed.");
         return;
       }
       ajax(build.url + 'api/json', function(err, data) {
