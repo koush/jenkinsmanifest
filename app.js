@@ -286,6 +286,14 @@ function addExtras(entry) {
         }
     ]
   }
+  else if (entry.modversion.startsWith('10.1')) {
+    entry.addons = [
+        {
+            "name": "Google Apps (4.2)",
+            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20121212-signed.zip"
+        }
+    ]
+  }
   else if (entry.modversion.startsWith('10')) {
     entry.addons = [
         {
