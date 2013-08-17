@@ -294,6 +294,14 @@ function addExtras(entry) {
         }
     ]
   }
+  else if (entry.modversion.startsWith('10.2')) {
+    entry.addons = [
+        {
+            "name": "Google Apps (4.3)",
+            "url": "http://download2.clockworkmod.com/gapps/gapps-jb-20130729.zip"
+        }
+    ]
+  }
   else if (entry.modversion.startsWith('10')) {
     entry.addons = [
         {
