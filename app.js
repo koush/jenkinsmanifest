@@ -371,7 +371,7 @@ function refresh() {
         var zip;
         var buildData;
         collections.each(data.artifacts, function(index, artifact) {
-          if ((artifact.displayPath.startsWith('cm-') || artifact.displayPath.startsWith('update-')) && artifact.displayPath.endsWith('.zip')) {
+          if ((artifact.displayPath.startsWith('cm-') || artifact.displayPath.startsWith('update-')) && artifact.displayPath.endsWith('.zip') && artifact.displayPath.indexOf('signed') == -1) {
             zip = artifact.displayPath;
             // entry.url = 'http://get.cm/get/artifacts/' + build.number + '/artifact/archive/' + artifact.displayPath;
             entry.url = 'http://get.cm/get/jenkins/' + build.number + '/' + artifact.displayPath;
