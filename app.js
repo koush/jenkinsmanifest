@@ -294,6 +294,14 @@ function addExtras(entry) {
         }
     ]
   }
+  else if (entry.modversion.startsWith('11.0')) {
+    entry.addons = [
+        {
+            "name": "Google Apps (4.4)",
+            "url": "http://download2.clockworkmod.com/gapps/gapps-kk-20131119.zip"
+        }
+    ]
+  }
   else if (entry.modversion.startsWith('10.2')) {
     entry.addons = [
         {
