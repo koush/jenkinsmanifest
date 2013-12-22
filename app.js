@@ -16,6 +16,7 @@ var app = module.exports = express.createServer();
 
 var model = require('./model');
 var mysql = require('./model').mysql;
+var request = require('request');
 
 var get = function(urlStr, callback, headers) {
   var options = {
