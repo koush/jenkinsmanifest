@@ -287,7 +287,7 @@ function addExtras(entry) {
         }
     ]
   }
-  else if (entry.modversion.startsWith('11.0')) {
+  else if (entry.modversion.startsWith('11-')) {
     entry.addons = [
         {
             "name": "Google Apps (4.4)",
