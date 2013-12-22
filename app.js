@@ -17,28 +17,20 @@ var app = module.exports = express.createServer();
 var model = require('./model');
 var mysql = require('./model').mysql;
 
-var get = function(urlStr, callback) {
- var u = url.parse(urlStr);
- http.get({ host: u.host, port: u.port, path: u.pathname + (u.search ? u.search : ''), headers: {'Accept': '*/*', 'User-Agent': 'curl'} },
-   function(res) {
-     var data = '';
-     res.on('data', function(chunk) {
-       data += chunk;
-     }).on('end', function() {
-       try {
-         callback(null, data);
-       }
-       catch (err) {
-         console.log('exception during get of ' + urlStr);
-         console.log(err);
-         callback(err);
-       }
-     });
-   }).on('error', function(error){
-     console.log('error during get');
-     console.log(error);
-     callback(error);
-   });
+var get = function(urlStr, callback, headers) {
+  var options = {
+    url: urlStr,
+    headers: headers
+  }
+  request(options, function(err, resp, body) {
+    try {
+      callback(err, body, resp);
+    }
+    catch (e) {
+      console.log('exception during get');
+      console.log(e);
+    }
+  });
 }
 
 var ajax = function(urlStr, callback) {
