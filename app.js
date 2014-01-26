@@ -291,7 +291,7 @@ function addExtras(entry) {
     entry.addons = [
         {
             "name": "Google Apps (4.4)",
-            "url": "http://download2.clockworkmod.com/gapps/gapps-kk-20131208.zip"
+            "url": "http://download2.clockworkmod.com/gapps/gapps-kk-20140105-signed.zip"
         }
     ]
   }
