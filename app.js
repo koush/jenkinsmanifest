@@ -30,6 +30,7 @@ var get = function(urlStr, callback, headers) {
     catch (e) {
       console.log('exception during get');
       console.log(e);
+      console.log(body);
     }
   });
 }
